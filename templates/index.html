@@ -16,16 +16,24 @@
                              ". main selected ."
                              "f f    f        f";
       }
+      th {
+        margin-left: 15px;
+        margin-right: 15px;
+        text-align: center;
+      }
+      tr {
+        cursor: pointer;
+      } tr:hover { background-color: white;}
       div.scroll {
         background-color: #3535351e;
         overflow: auto;
         text-align: justify;
-        padding: 20px;
+        padding: 10px;
         margin-left: 20px;
         margin-right: 20px;
       }
       div.container {
-        height: 80%;
+        height: 85%;
 
       }
       #header {
@@ -40,26 +48,43 @@
       }
       #footer {
         grid-area: f;
-        height: 10%;
+        height: 5%;
       }
     </style>
   </head>
   <body>
     <div id="header"></div>
     <div class="scroll container" id="mainContainer">
-      <ul id="mainList">
+      <table id="mainList">
+        <tr>
+          <th>Number</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Generation</th>
+        </tr>
         {% for pokemon in userDetails %}
-        <li>
-          {{pokemon[0]}} {{pokemon[1]}} {{pokemon[2]}} {{pokemon[3]}}
-        </li>
+        <tr id="{{pokemon[0]}}" onclick="addToFavorite(this)">
+          <td>{{pokemon[0]}}</td>
+          <td>{{pokemon[1]}}</td>
+          <td>{{pokemon[2]}}</td>
+          <td>{{pokemon[3]}}</td>
+        </tr>
         {% endfor %}
-      </ul>
+      </table>
     </div>
     <div class="scroll container" id="selectedContainer">
-      <ul id="selectedList">
+      <table id="selectedList">
 
-      </ul>
+      </table>
     </div>
     <div id="footer"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+      function addToFavorite(elem) {
+        console.log("clicking " + elem.id);
+        $.post("http://localhost:5000", elem.id);
+      }
+    </script>
   </body>
 </html>
