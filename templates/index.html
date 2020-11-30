@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Pokédex</title>
+    <style>
+      body, html {
+        height: 100vh;
+      }
+      body {
+        margin: 0;
+        display: grid;
+        grid-template-columns: 10% 40% 40% 10%;
+        grid-template-rows: 10% 80% 10%;
+        grid-template-areas: "h h    h        h"
+                             ". main selected ."
+                             "f f    f        f";
+      }
+      div.scroll {
+        background-color: #3535351e;
+        overflow: auto;
+        text-align: justify;
+        padding: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+      div.container {
+        height: 80%;
+
+      }
+      #header {
+        grid-area: h;
+        height: 10%;
+      }
+      #mainContainer {
+        grid-area: main;
+      }
+      #selectedContainer {
+        grid-area: selected;
+      }
+      #footer {
+        grid-area: f;
+        height: 10%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header"></div>
+    <div class="scroll container" id="mainContainer">
+      <ul id="mainList">
+        {% for pokemon in userDetails %}
+        <li>
+          {{pokemon[0]}} {{pokemon[1]}} {{pokemon[2]}} {{pokemon[3]}}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="scroll container" id="selectedContainer">
+      <ul id="selectedList">
+
+      </ul>
+    </div>
+    <div id="footer"></div>
+  </body>
+</html>
