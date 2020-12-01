@@ -82,8 +82,15 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
       function addToFavorite(elem) {
-        console.log("clicking " + elem.id);
-        $.post("http://localhost:5000", elem.id);
+        let pokemon = {
+          number: elem.id,
+        }
+        $.ajax({
+          type: "POST",
+          url: '/',
+          data: pokemon,
+          success: () => {location.reload();}
+        });
       }
     </script>
   </body>

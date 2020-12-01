@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import mysql.connector
 import os.path
 from db_tunnel import DatabaseTunnel
@@ -23,13 +23,19 @@ with \
         
         app = Flask(__name__)
         CORS(app)
-        @app.route('/', methods=["GET", "POST"])
+        @app.route('/')
         def index():
-            if request.method == "POST":
-
-                cursor.execute("CALL addToFavorite()")
             cursor.execute("SELECT Pokemon.number, Pokemon.name, Location.name, Generation.name FROM Pokemon JOIN Location ON Pokemon.location = Location.ID JOIN Generation ON Pokemon.generation = Generation.ID")
             return render_template('index.html', userDetails=cursor)
+
+        @app.route("/favorite", methods=[ "POST" ])
+        def favorite(yeet):
+            pokemon = request.form
+            number = pokemon["number"]
+
+            cursor.execute("CALL addToFavorite(" + number + ")")
+
+
             
 
         if __name__ == "__main__":
