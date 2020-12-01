@@ -62,18 +62,34 @@
           <th>Location</th>
           <th>Generation</th>
         </tr>
-        {% for pokemon in userDetails %}
-        <tr id="{{pokemon[0]}}" onclick="addToFavorite(this)">
-          <td>{{pokemon[0]}}</td>
-          <td>{{pokemon[1]}}</td>
-          <td>{{pokemon[2]}}</td>
-          <td>{{pokemon[3]}}</td>
+        <tr>Number of Pokemon remaining: {{curNumber[0][0]}}</tr>
+        {% for curPoke in curList %}
+        <tr id="{{curPoke[0]}}" onclick="addToFavorite(this)">
+          <td>{{curPoke[0]}}</td>
+          <td>{{curPoke[1]}}</td>
+          <td>{{curPoke[2]}}</td>
+          <td>{{curPoke[3]}}</td>
         </tr>
         {% endfor %}
       </table>
     </div>
     <div class="scroll container" id="selectedContainer">
       <table id="selectedList">
+        <tr>
+          <th>Number</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Generation</th>
+        </tr>
+        <tr>Number of favorited Pokemon: {{favNumber[0][0]}}</tr>
+        {% for favPoke in favList %}
+        <tr id="{{favPoke[0]}}" onclick="removeFromFavorite(this)">
+          <td>{{favPoke[0]}}</td>
+          <td>{{favPoke[1]}}</td>
+          <td>{{favPoke[2]}}</td>
+          <td>{{favPoke[3]}}</td>
+        </tr>
+        {% endfor %}
 
       </table>
     </div>
@@ -82,15 +98,43 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
       function addToFavorite(elem) {
+
         let pokemon = {
-          number: elem.id,
+          number: elem.id
         }
-        $.ajax({
-          type: "POST",
-          url: '/',
-          data: pokemon,
-          success: () => {location.reload();}
-        });
+
+        fetch(`${window.origin}/favorite`, {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(pokemon),
+          cache: "no-cache",
+          headers: new Headers({
+            "content-type" : "application/json"
+          })
+        })
+        .then((response) => {
+          window.location.reload(true);
+        })
+      }
+
+      function removeFromFavorite(elem) {
+
+        let pokemon = {
+          number: elem.id
+        }
+
+        fetch(`${window.origin}/unfavorite`, {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(pokemon),
+          cache: "no-cache",
+          headers: new Headers({
+            "content-type" : "application/json"
+          })
+        })
+        .then((response) => {
+          window.location.reload(true);
+        })
       }
     </script>
   </body>
