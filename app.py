@@ -45,7 +45,7 @@ with \
             pokemon = jsonify(req)
 
             res = make_response({}, 200)
-            cursor.execute("CALL FavoritePokemon(" + req["number"] +  ")")
+            cursor.execute("CALL FavoritePokemon(" + str(req["number"]) +  ")")
 
             return res
 
